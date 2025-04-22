@@ -41,6 +41,11 @@ export const getAllCars = async (req: Request, res: Response, next: NextFunction
   )
 
 }
-export const getCarById = async (req: Request, res: Response, next: NextFunction) => { }
+export const getCarById = async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.params;
+  await prisma.car.delete({ where: { id } })
+
+  res.status(HttpStatus.NO_CONTENT).end();
+}
 export const updateCar = async (req: Request, res: Response, next: NextFunction) => { }
 export const deleteCar = async (req: Request, res: Response, next: NextFunction) => { }
