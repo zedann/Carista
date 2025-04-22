@@ -23,6 +23,23 @@ export const createCar = async (req: Request, res: Response, next: NextFunction)
   })
 }
 export const getAllCars = async (req: Request, res: Response, next: NextFunction) => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  const skip = (page - 1) * limit;
+  const cars = await prisma.car.findMany({
+    skip,
+    take: limit,
+    orderBy: { createdAt: "desc" }
+  })
+
+  res.status(HttpStatus.OK).json(
+    {
+      page,
+      limit,
+      data: cars
+    }
+  )
+
 }
 export const getCarById = async (req: Request, res: Response, next: NextFunction) => { }
 export const updateCar = async (req: Request, res: Response, next: NextFunction) => { }
